@@ -8,11 +8,12 @@ const socket = io.connect("http://localhost:3001");
 function App() {
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
+  /*Para que se muestre el chat o no*/
   const [showChat, setShowChat] = useState(false);
 
   const joinRoom = () => {
     if (username !== "" && room !== "") {
-      socket.emit("join_room", room);
+      socket.emit("join_room", room);/*socket emite el evento join_room del backend*/
       setShowChat(true);
     }
   };

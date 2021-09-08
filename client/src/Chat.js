@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-
+/*Props socket para enviar y recibir msj*/
 function Chat({ socket, username, room }) {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
-
+/*objeto que contiene la informacion para enviar al servidor del socket*/
   const sendMessage = async () => {
     if (currentMessage !== "") {
       const messageData = {
@@ -16,7 +16,8 @@ function Chat({ socket, username, room }) {
           ":" +
           new Date(Date.now()).getMinutes(),
       };
-/*Evento que envia  la variable sendMessage a travez de un socket*/
+/*Evento que envia  la variable sendMessage a travez de un socket al servidor*/
+/*Espera el evento del backend*/
       await socket.emit("send_message", messageData);
       setMessageList((list) => [...list, messageData]);
       setCurrentMessage("");
@@ -39,13 +40,15 @@ function Chat({ socket, username, room }) {
           {messageList.map((messageContent) => {
             return (
               <div
-                className="message"
+                className="message"/*si no enviaste msj, es el otro que lo envio*/ 
                 id={username === messageContent.author ? "you" : "other"}
               >
                 <div>
                   <div className="message-content">
                     <p>{messageContent.message}</p>
                   </div>
+                  
+                  
                   <div className="message-meta">
                     <p id="time">{messageContent.time}</p>
                     <p id="author">{messageContent.author}</p>
